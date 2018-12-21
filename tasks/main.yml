@@ -1,0 +1,31 @@
+---
+# tasks file for sshd
+# No need to ensure that openssh-server is installed, as ansible is already using it 
+
+- name: Ensuring sshd is enabled
+  service:
+    name: sshd
+    enabled: True
+
+- name: Distributing sshd_config for all nodes
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+  notify: 
+    - restart_sshd
+
+- name: Local script for ssh facts.d
+  copy:
+    src: sshd-fingerprints
+    dest: /usr/local/bin/sshd-fingerprints
+    mode: 0750
+  register: sshd_host_facts  
+
+- name: Creating facts.d
+  command: /usr/local/bin/sshd-fingerprints
+  when: sshd_host_facts is changed 
+
+- name: Reloading facts if needed
+  setup:
+    filter: ansible_local
+  when: sshd_host_facts is changed  

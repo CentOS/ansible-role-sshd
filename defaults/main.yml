@@ -1,0 +1,6 @@
+---
+# defaults file for sshd
+
+# Pagure needs some key helper
+# only needed on git/pagure host so default to False
+pagure_host: False
