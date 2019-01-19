@@ -7,10 +7,13 @@
     name: sshd
     enabled: True
 
-- name: Distributing sshd_config for all nodes
+- name: Distributing sshd config files 
   template:
-    src: sshd_config.j2
-    dest: /etc/ssh/sshd_config
+    src: "{{ item }}.j2"
+    dest: "/etc/ssh/{{ item }}"
+  with_items:
+    - sshd_config
+    - ssh_known_hosts
   notify: 
     - restart_sshd
 
