@@ -4,3 +4,18 @@
 # Pagure needs some key helper
 # only needed on git/pagure host so default to False
 pagure_host: False
+
+# Is this host a public bastion/jump host ?
+# If so we'll add list of specific users in a group (see below) 
+# and we'll also block shell sessions
+sshd_proxyjump_host: False
+sshd_proxyjump_group: jumphost_users
+# List of users to create locally in specific group (no shell)
+# sshd_proxyjump_users_list:
+#   - login_name: proxy_user
+#     full_name: ssh proxy user
+#     ssh_pub_keys:
+#       - ssh-rsa key 1 blabla
+#       - ssh-rsa key 2 blabla
+sshd_proxyjump_users_list: []
+

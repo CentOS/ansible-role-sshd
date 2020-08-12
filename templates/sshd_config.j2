@@ -33,3 +33,9 @@ HostCertificate /etc/ssh/ssh_host_rsa_key-cert.pub
 AuthorizedKeysCommandUser git
 AuthorizedKeysCommand /usr/libexec/pagure/keyhelper.py "%u" "%h" "%t" "%f"
 {% endif %}
+
+{% if sshd_proxyjump_host %}
+Match Group {{ sshd_proxyjump_group }}
+   MaxSessions 0
+   
+{% endif %}
