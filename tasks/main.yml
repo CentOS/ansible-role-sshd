@@ -11,6 +11,7 @@
   template:
     src: "{{ item }}.j2"
     dest: "/etc/ssh/{{ item }}"
+    mode: 0644 
   with_items:
     - sshd_config
     - ssh_known_hosts
