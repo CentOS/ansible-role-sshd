@@ -19,3 +19,8 @@ sshd_proxyjump_group: jumphost_users
 #       - ssh-rsa key 2 blabla
 sshd_proxyjump_users_list: []
 
+# By default we can add our ssh Cert Authority in system-wide ssh_known_hosts
+ssh_known_hosts_entries:
+  - '@cert-authority *.centos.org ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXmhva/yVOS6y/sR1Pjd+Gflzkl7azfl3ZIhex5kSHilUjT3DSjfXK0TgSHT93BCKs1/mT84ZKv6s+Ulfc3kC9aykJQnkWJ6I6CjIgfIM547VT2Egx5fKJZ/7yRedYf6HoVPZSAW5WYKZ0fq/DDoAFUuZJkkp3QEzh6TUiXif9qjCu3liXNgkS2uVIWc7+1QTLRxqU3/MCD1YxuOL8ShyMSHlGJTRMMTYq6aAFmlQ/FsA8deb9HeR3PaAZx7Q7jqmiJD5cx9XtrmgM4CCZNFxP9i0s+L7yDKzFQ1ecm1/vzouOsAVcSh7MiAexuBLgbUdhmBDGVEJYQDNENKOdaoiP'
+  
+
