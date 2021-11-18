@@ -35,12 +35,20 @@
   when: sshd_host_facts is changed 
 
 - block:
+    - name: Adding group "{{ sshd_proxyjump_group }}"
+      group:
+        name: "{{ sshd_proxyjump_group }}"
+      tags:
+        - users
+
     - name: Adding ssh proxyjump users
       user:
         name: "{{ item.login_name }}"
         state: present
         comment: "{{ item.full_name }}"
         shell: /bin/false
+        append: yes
+        groups: "{{ sshd_proxyjump_group }}"
       with_items: "{{ sshd_proxyjump_users_list }}"
       loop_control:
         label: "{{ item.login_name }}"
