@@ -24,9 +24,11 @@ KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-he
 {% else -%}
 {% endif %}
 
+{% if sshd_signed_cert %}
 # Presenting ssh host pub cert signed by CA host
-# Defaulting to RSA for now due to incompatibility with older openssh clients , still on el6
-HostCertificate /etc/ssh/ssh_host_rsa_key-cert.pub
+# rsa vs ecdsa vs ed25519 is defined by ansible sshd_hostcert_type variable (all are signed and available)
+HostCertificate /etc/ssh/ssh_host_{{ sshd_signed_cert_type }}_key-cert.pub
+{% endif %}
 
 {% if pagure_host %}
 # For repospanner/git

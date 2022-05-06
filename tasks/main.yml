@@ -67,3 +67,24 @@
       tags:
         - users
   when: sshd_proxyjump_host
+
+- block:
+    - name: Ensuring we have directory to store sshd host keys to be signed
+      file:
+        path: /var/lib/centos-infra/pki-ssh
+        state: directory
+        owner: root
+        group: root
+        mode: '0750'
+
+    - name: Distributing existing openssh CA key files
+      copy:
+        src: "{{ pkistore }}/ssh/{{ item }}"
+        dest: "/var/lib/centos-infra/pki-ssh/{{ item }}"
+        owner: root
+        group: root
+      with_items:
+        - "{{ sshd_ca_host_key }}"
+        - "{{ sshd_ca_host_key }}.pub"
+
+  when: sshd_ca_host

@@ -3,6 +3,7 @@
 
 # Pagure needs some key helper
 # only needed on git/pagure host so default to False
+# That will permit us to delegate user keys checks to pagure api for the git user
 pagure_host: False
 
 # Is this host a public bastion/jump host ?
@@ -10,6 +11,7 @@ pagure_host: False
 # and we'll also block shell sessions
 sshd_proxyjump_host: False
 sshd_proxyjump_group: jumphost_users
+
 # List of users to create locally in specific group (no shell)
 # sshd_proxyjump_users_list:
 #   - login_name: proxy_user
@@ -19,8 +21,18 @@ sshd_proxyjump_group: jumphost_users
 #       - ssh-rsa key 2 blabla
 sshd_proxyjump_users_list: []
 
+# By default we sign all certs on the sshd_ca_host but we can have exceptions due to some conflicting algo/clients
+# So we'll present the signed .pub host key to clients to avoid asking to trust fingerprint
+sshd_signed_cert: True
+# Which one to present, affect compatibility so test carefully
+# Can be rsa , ed25519 or ecdsa
+sshd_signed_cert_type: ed25519
+
 # By default we can add our ssh Cert Authority in system-wide ssh_known_hosts
 ssh_known_hosts_entries:
   - '@cert-authority *.centos.org ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXmhva/yVOS6y/sR1Pjd+Gflzkl7azfl3ZIhex5kSHilUjT3DSjfXK0TgSHT93BCKs1/mT84ZKv6s+Ulfc3kC9aykJQnkWJ6I6CjIgfIM547VT2Egx5fKJZ/7yRedYf6HoVPZSAW5WYKZ0fq/DDoAFUuZJkkp3QEzh6TUiXif9qjCu3liXNgkS2uVIWc7+1QTLRxqU3/MCD1YxuOL8ShyMSHlGJTRMMTYq6aAFmlQ/FsA8deb9HeR3PaAZx7Q7jqmiJD5cx9XtrmgM4CCZNFxP9i0s+L7yDKzFQ1ecm1/vzouOsAVcSh7MiAexuBLgbUdhmBDGVEJYQDNENKOdaoiP'
-  
 
+# Is this a host where we also sign through ssh CA other host keys ?
+sshd_ca_host: False
+# If true which ssh ca host key will need to be distributed from {{ pkistore }}/ssh/ directory
+sshd_ca_host_key:
