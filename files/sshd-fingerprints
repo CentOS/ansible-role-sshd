@@ -6,11 +6,14 @@ ssh_ecdsa_fingerprint=$(ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub|sed 's/no
 ssh_ecdsa_md5_fingerprint=$(ssh-keygen -E md5 -lf /etc/ssh/ssh_host_ecdsa_key.pub|sed 's/no comment//')
 
 cat >/etc/ansible/facts.d/sshd_host.fact << EOF
-[fingerprint]
-rsa=${ssh_rsa_fingerprint}
-rsa_md5=${ssh_rsa_md5_fingerprint}
-ecdsa=${ssh_ecdsa_fingerprint}
-ecdsa_md5=${ssh_ecdsa_md5_fingerprint}
+{
+  "fingerprint" : {
+    "rsa": "${ssh_rsa_fingerprint}",
+    "rsa_md5": "${ssh_rsa_md5_fingerprint}",
+    "ecdsa": "${ssh_ecdsa_fingerprint}",
+    "ecdsa_md5": "${ssh_ecdsa_md5_fingerprint}"
+  }
+}
 EOF
 
 
